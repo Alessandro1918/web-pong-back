@@ -1,9 +1,16 @@
 import fastify from "fastify"
+import websocket from "@fastify/websocket"
+import { game } from "./routes/game"
 
 const PORT = 4000
+
 const app = fastify()
 
-app.get("/", () => {return "Hello, world!"})
+//websockets
+app.register(websocket)
+
+//routes
+app.register(game)
 
 app
   .listen({port: PORT})
