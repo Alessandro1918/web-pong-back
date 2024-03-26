@@ -1,8 +1,8 @@
 import { FastifyInstance } from "fastify";
-import { moving } from "../utils/moving-pub-sub";
+import { player } from "../utils/player-pub-sub";
 import { z } from "zod";
 
-//Will listen (and react) to every message sent by the user (move, left game, etc.)
+//Will listen (and react) to every message sent by the user ("spawn", "move", etc.)
 export async function game(app: FastifyInstance) {
   app.get('/game/:gameId', { websocket: true }, (socket, request) => {
     
@@ -11,8 +11,8 @@ export async function game(app: FastifyInstance) {
     })
     const { gameId } = reqParams.parse(request.params)
 
-    //Listen to "move" events
-    moving.subscribe(gameId, (message) => {
+    //Listen to different player events ("spawn", "move", etc.)
+    player.subscribe(gameId, (message) => {
       socket.send(JSON.stringify(message))
     })
   })

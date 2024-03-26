@@ -1,10 +1,14 @@
-type Message = { playerId: string, playerPos: number }  //obj with 2 keys
-type Subscriber = (message: Message) => void;           //function with 1 param (the message) and no return
+type Message = {                                  //object; each event ("spawn", "move") will send a different message with different obj keys
+  action: string,       //"spawn", "move"
+  playerId?: string,    //"P1", "P2"
+  playerPos?: number    //42
+}  
+type Subscriber = (message: Message) => void;     //function with 1 param (the message) and no return
 
 //Class with the methods to:
 //1. subscribe channel (listen to messages) and 
 //2. publish to a websocket connection (send messages)  
-class MovingPubSub {
+class PlayerPubSub {
   
   //Array of channel IDs (1) and connections listening for it's messages (2)
   private channels: Record<string, Subscriber[]> = {};
@@ -34,4 +38,4 @@ class MovingPubSub {
   }
 }
 
-export const moving = new MovingPubSub();
+export const player = new PlayerPubSub();

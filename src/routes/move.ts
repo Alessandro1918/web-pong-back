@@ -1,6 +1,6 @@
 import { FastifyInstance } from "fastify"
 import { z } from "zod"
-import { moving } from "../utils/moving-pub-sub"
+import { player } from "../utils/player-pub-sub"
 
 //User will call this route every 1s, sending it's current position
 export async function move(app: FastifyInstance) {
@@ -17,9 +17,10 @@ export async function move(app: FastifyInstance) {
     const { gameId } = reqParams.parse(request.params)
     const { playerId, playerPos } = reqBody.parse(request.body)
 
-    moving.publish(
+    player.publish(
       gameId, 
       {
+        action: "move",
         playerId,
         playerPos
       }
