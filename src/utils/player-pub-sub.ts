@@ -36,6 +36,16 @@ class PlayerPubSub {
       subscriber(message)
     }
   }
+
+  //Method used by the HTTP POST 'spawn' route;
+  //If player entered in new game, return "P1" (Player 1). Else, they are "P2".
+  getPlayerId(gameId: string) {
+    if (this.channels[gameId].length == 1)  {
+      return "P1"
+    } else {
+      return "P2  "
+    }
+  }
 }
 
 export const player = new PlayerPubSub();
